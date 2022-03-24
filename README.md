@@ -81,8 +81,13 @@ foo@bar:~$ sdk list mavel
 Esta API utiliza o banco de dados em memória H2 não sendo necessária nenhuma configuração para o funcionamento da API. 
 Entretanto, caso queira dar uma olhada nos objetos armazenados basta acessar: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
 
-Assim que entrar nesta tela:
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+### Acessando o banco de dados
+
+Assim que entrar nesta tela, basta deixar as informações do jeito que está na imagem e clicar em **Connect**.
+
+![alt text](https://github.com/Alex3397/ilia-folha-de-ponto/blob/main/src/main/resources/exampleImage/h2_console.png?raw=true)
+
+###### Assim que estiver na próxima tela pode se divertir lá dentro. Quebrar software também é um bom passatempo.
 
 ## Execução
 
