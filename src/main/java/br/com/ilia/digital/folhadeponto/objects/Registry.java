@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.FetchProfile;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class Registry implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dia;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> horarios;
 
     public Registry(String day, List<String> schedules) {

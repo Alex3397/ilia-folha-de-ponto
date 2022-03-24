@@ -1,4 +1,4 @@
-package br.com.ilia.digital.folhadeponto.services;
+package br.com.ilia.digital.folhadeponto.services.v1;
 
 import br.com.ilia.digital.folhadeponto.objects.Message;
 import br.com.ilia.digital.folhadeponto.objects.Record;
@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RecordServices {
+public class V1RecordService {
 
     public ResponseEntity<Object> createRecord(String date) {
         if (date == null) return ResponseEntity.status(400).body(new Message("Campo obrigatório não informado: mes"));

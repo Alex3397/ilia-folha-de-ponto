@@ -39,7 +39,7 @@ public class Record implements Serializable {
     @OneToMany
     private List<Allocation> alocacoes;
 
-    public Record gatherDataByDate(String date) {
+    public void gatherDataByDate(String date) {
         Path configPath = System.getProperty("os.name").contains("Windows") ? Path.of(System.getProperty("user.dir"), "\\config") : Path.of(System.getProperty("user.dir"), "/config");
         File configDir = new File(String.valueOf(configPath));
         setMes(date);
@@ -66,8 +66,6 @@ public class Record implements Serializable {
         updateWorkedHours();
         updateExceedingHours();
         updateDueHours();
-
-        return new Record();
     }
 
     private WorkedHours fetchWorkedHours(List<Registry> registryList) {

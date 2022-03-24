@@ -1,4 +1,4 @@
-package br.com.ilia.digital.folhadeponto.services;
+package br.com.ilia.digital.folhadeponto.services.v1;
 
 import br.com.ilia.digital.folhadeponto.objects.Message;
 import br.com.ilia.digital.folhadeponto.objects.Moment;
@@ -12,14 +12,14 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Serviço de Momento versão 1
+ *
+ * @since 2022-03-23 17:22
+ */
+
 @Service
-public class MomentService {
-    /**
-     * Serviço de Momento
-     * Verifica e cria momento
-     *
-     * @since 2022-03-23 17:22
-     */
+public class V1MomentService {
 
     public ResponseEntity<Object> registerMoment(Moment moment) {
 
