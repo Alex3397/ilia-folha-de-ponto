@@ -4,7 +4,7 @@ import br.com.ilia.digital.folhadeponto.objects.Allocation;
 import br.com.ilia.digital.folhadeponto.objects.Moment;
 import br.com.ilia.digital.folhadeponto.services.MomentService;
 import br.com.ilia.digital.folhadeponto.services.RecordServices;
-import br.com.ilia.digital.folhadeponto.utilities.repositories.AllocationsRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalAllocationsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +31,7 @@ public class ApiController {
         ResponseEntity<Object> response = allocation.selfValidate();
         if (response.getStatusCodeValue() == 400) return response;
 
-        AllocationsRepository.saveAllocation(allocation, allocation.returnDay(), allocation.returnMonth(), allocation.returnYear());
+        LocalAllocationsRepository.saveAllocation(allocation, allocation.returnDay(), allocation.returnMonth(), allocation.returnYear());
         return ResponseEntity.status(201).body(allocation);
     }
 

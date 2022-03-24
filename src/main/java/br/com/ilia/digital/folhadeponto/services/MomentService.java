@@ -3,8 +3,8 @@ package br.com.ilia.digital.folhadeponto.services;
 import br.com.ilia.digital.folhadeponto.objects.Message;
 import br.com.ilia.digital.folhadeponto.objects.Moment;
 import br.com.ilia.digital.folhadeponto.objects.Registry;
-import br.com.ilia.digital.folhadeponto.utilities.repositories.MomentRepository;
-import br.com.ilia.digital.folhadeponto.utilities.repositories.RegistryRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalMomentRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalRegistryRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class MomentService {
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY)
             return ResponseEntity.status(403).body(new Message("Sábado e domingo não são permitidos como dia de trabalho"));
 
-        List<Moment> momentList = MomentRepository.getMoments(moment.getDate());
+        List<Moment> momentList = LocalMomentRepository.getMoments(moment.getDate());
         if (momentList.size() == 4)
             return ResponseEntity.status(403).body(new Message("Apenas 4 horários podem ser registrados por dia"));
 
@@ -51,12 +51,12 @@ public class MomentService {
         }
 
 
-        Moment foundMoment = MomentRepository.findByDateTime(moment.getDataHora(), moment.getDate());
+        Moment foundMoment = LocalMomentRepository.findByDateTime(moment.getDataHora(), moment.getDate());
         if (foundMoment != null) return ResponseEntity.status(409).body(new Message("Horário já registrado"));
 
-        MomentRepository.saveMoment(moment);
-        Registry registry = new Registry(moment.getDay(), MomentRepository.getSchedules(moment.getDate()));
-        RegistryRepository.saveRegistry(registry, moment.getDay(), moment.getMonth(), moment.getYear());
+        LocalMomentRepository.saveMoment(moment);
+        Registry registry = new Registry(moment.getDay(), LocalMomentRepository.getSchedules(moment.getDate()));
+        LocalRegistryRepository.saveRegistry(registry, moment.getDay(), moment.getMonth(), moment.getYear());
         return ResponseEntity.status(201).body(registry);
     }
 }

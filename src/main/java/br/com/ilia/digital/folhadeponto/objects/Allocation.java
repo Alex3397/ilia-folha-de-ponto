@@ -1,13 +1,17 @@
 package br.com.ilia.digital.folhadeponto.objects;
 
-import br.com.ilia.digital.folhadeponto.utilities.repositories.MomentRepository;
-import br.com.ilia.digital.folhadeponto.utilities.repositories.RegistryRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalMomentRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalRegistryRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.ResponseEntity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -24,10 +28,21 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Allocation implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String dia;
     private String tempo;
     private String projeto;
+
+    public Allocation(String dia, String tempo, String projeto) {
+        this.dia = dia;
+        this.tempo = tempo;
+        this.projeto = projeto;
+    }
 
     public ResponseEntity<Object> selfValidate() {
         if (dia == null) return ResponseEntity.status(400).body(new Message("Campo obrigatório não informado: dia"));
@@ -51,12 +66,12 @@ public class Allocation implements Serializable {
             return ResponseEntity.status(400).body(new Message("Dia em formato inválido, utilize a seguinte formatação: 08:00:00"));
         }
 
-        List<Moment> moments = MomentRepository.getMoments(day.getYear() + "-" + day.getMonthValue() + "-" + day.getDayOfMonth());
+        List<Moment> moments = LocalMomentRepository.getMoments(day.getYear() + "-" + day.getMonthValue() + "-" + day.getDayOfMonth());
         if (moments.size() == 0)
             return ResponseEntity.status(403).body(new Message("Nenhuma batida de ponto registrada na data: " + day));
 
         int totalHours = 0, totalMinutes = 0, totalSeconds = 0;
-        Registry registry = RegistryRepository.getRegistry(day.getYear() + "-" + day.getMonthValue() + "-" + day.getDayOfMonth());
+        Registry registry = LocalRegistryRepository.getRegistry(day.getYear() + "-" + day.getMonthValue() + "-" + day.getDayOfMonth());
 
         if (registry.getHorarios().size() == 1)
             return ResponseEntity.status(403).body(new Message("Apenas uma batida foi registrada na data: " + day));

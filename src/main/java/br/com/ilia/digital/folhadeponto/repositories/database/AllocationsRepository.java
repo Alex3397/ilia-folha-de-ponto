@@ -1,4 +1,4 @@
-package br.com.ilia.digital.folhadeponto.utilities.repositories;
+package br.com.ilia.digital.folhadeponto.repositories.database;
 
 import br.com.ilia.digital.folhadeponto.objects.Allocation;
 import lombok.SneakyThrows;

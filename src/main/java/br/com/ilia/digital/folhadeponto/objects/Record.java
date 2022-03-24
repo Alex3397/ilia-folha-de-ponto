@@ -1,13 +1,15 @@
 package br.com.ilia.digital.folhadeponto.objects;
 
-import br.com.ilia.digital.folhadeponto.utilities.repositories.AllocationsRepository;
-import br.com.ilia.digital.folhadeponto.utilities.repositories.RegistryRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalAllocationsRepository;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalRegistryRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,19 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Record {
+@Entity
+public class Record implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String mes;
     private String horasTrabalhadas;
     private String horasExcedentes;
     private String horasDevidas;
+    @OneToMany
     private List<Registry> registros;
+    @OneToMany
     private List<Allocation> alocacoes;
 
     public Record gatherDataByDate(String date) {
@@ -45,9 +54,9 @@ public class Record {
         if (filesList != null && filesList.length > 0) for (String file : filesList) {
             if (file.contains(String.valueOf(Integer.parseInt(dateParts[0]))) && file.contains(String.valueOf(Integer.parseInt(dateParts[1])))) {
                 if (file.contains("registry"))
-                    registryList.add(RegistryRepository.getRegistry(file.replace("registry", "")));
+                    registryList.add(LocalRegistryRepository.getRegistry(file.replace("registry", "")));
                 if (file.contains("allocation"))
-                    allocationList.add(AllocationsRepository.getAllocation(file.replace("allocation", "")));
+                    allocationList.add(LocalAllocationsRepository.getAllocation(file.replace("allocation", "")));
             }
         }
 
