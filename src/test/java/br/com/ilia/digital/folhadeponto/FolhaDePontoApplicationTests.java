@@ -4,9 +4,11 @@ import br.com.ilia.digital.folhadeponto.controller.ApiController;
 import br.com.ilia.digital.folhadeponto.controller.ApiControllerV2;
 import br.com.ilia.digital.folhadeponto.objects.Allocation;
 import br.com.ilia.digital.folhadeponto.objects.Moment;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -46,7 +48,7 @@ public class FolhaDePontoApplicationTests {
             apiControllerV2.postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,13,10,18).toString()));
             apiControllerV2.postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,19,59,37).toString()));
 
-            //apiControllerV2.postAllocation(new Allocation(LocalDate.of(2022,3,i).toString(), LocalTime.of(10,0,0).toString(),"GROGALDR"));
+            apiControllerV2.postAllocation(new Allocation(LocalDate.of(2022,3,i).toString(), LocalTime.of(10,0,0).toString(),"GROGALDR"));
         }
     }
 }

@@ -10,8 +10,8 @@ import java.util.Optional;
 @Repository
 public interface AllocationsRepository extends JpaRepository<Allocation, Long> {
     Optional<Allocation> findByDia(String dia);
-    Optional<Allocation> findByTempo(String tempo);
-    Optional<Allocation> findByProjeto(String projeto);
+    List<Allocation> findByTempo(String tempo);
+    List<Allocation> findByProjeto(String projeto);
 
     List<Allocation> findAll();
 }
