@@ -2,15 +2,17 @@ package br.com.ilia.digital.folhadeponto.controller;
 
 import br.com.ilia.digital.folhadeponto.objects.Allocation;
 import br.com.ilia.digital.folhadeponto.objects.Moment;
+import br.com.ilia.digital.folhadeponto.repositories.local.LocalAllocationsRepository;
 import br.com.ilia.digital.folhadeponto.services.v1.V1AllocationService;
 import br.com.ilia.digital.folhadeponto.services.v1.V1MomentService;
 import br.com.ilia.digital.folhadeponto.services.v1.V1RecordService;
-import br.com.ilia.digital.folhadeponto.repositories.local.LocalAllocationsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Objects;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Controller da API versão 1 utilizando arquivos como repositório
@@ -46,6 +48,21 @@ public class ApiController {
     @GetMapping("folhas-de-ponto/{mes}")
     public ResponseEntity<Object> getRecord(@PathVariable(name = "mes") String date) {
         return recordServices.createRecord(date);
+    }
+
+    /**
+     * Função para popular a API utilizando arquivos para armazenamento de dados
+     * @since 2022-03-24 18:37
+     */
+    public void populate() {
+        for (int i = 1; i <= 31; i++) {
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,8,25,31).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,12,50,29).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,13,10,18).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,19,59,37).toString()));
+
+            postAllocation(new Allocation(LocalDate.of(2022,3,i).toString(), LocalTime.of(10,0,0).toString(),"GROGALDR"));
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Registro de horas de um Empregado
+ * Classe de registro
  * @since 2022-03-23 17:25
  */
 
@@ -25,6 +25,7 @@ public class Registry implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dia;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> horarios;
 

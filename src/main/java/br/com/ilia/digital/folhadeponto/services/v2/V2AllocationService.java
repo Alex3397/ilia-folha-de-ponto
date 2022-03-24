@@ -11,9 +11,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de serviço de Alocações
+ * @version 2
+ * @since 2022-03-23 17:27
+ */
 @Service
 @AllArgsConstructor
 public class V2AllocationService {
@@ -21,17 +26,21 @@ public class V2AllocationService {
     private V2RegistryService registryService;
     private AllocationsRepository allocationsRepository;
 
+    /**
+     * Função para criar Alocação
+     * @since 2022-03-23 17:27
+     */
     public ResponseEntity<Object> postAllocation(Allocation allocation) {
         ResponseEntity<Object> response = allocation.selfValidate();
         if (response.getStatusCodeValue() == 400) return response;
 
-        ResponseEntity<Object> response2 = updateAllocation(allocation);
-        if (response2.getStatusCodeValue() != 200) return response2;
-
-        LocalAllocationsRepository.saveAllocation(allocation, allocation.returnDay(), allocation.returnMonth(), allocation.returnYear());
-        return ResponseEntity.status(201).body(allocation);
+        return updateAllocation(allocation);
     }
 
+    /**
+     * Função para atualizar Alocação
+     * @since 2022-03-23 17:27
+     */
     private ResponseEntity<Object> updateAllocation(Allocation allocation) {
         if (allocationsRepository.findByDia(allocation.getDia()).isPresent()) return ResponseEntity.status(403).body(new Message("Alocação já registrada na data: " + allocation.getDia()));
 
@@ -77,4 +86,11 @@ public class V2AllocationService {
         return ResponseEntity.status(201).body(allocation);
     }
 
+    /**
+     * Função para buscar todas as alocações registradas
+     * @since 2022-03-23 17:27
+     */
+    public List<Allocation> findAll() {
+        return allocationsRepository.findAll();
+    }
 }

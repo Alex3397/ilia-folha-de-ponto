@@ -12,11 +12,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Momento da batida de ponto
- *
- * @since 2022-03-23 17:27
+ * Objeto principal de batida de ponto
+ * @since 2022-03-24 18:37
  */
 
 @Getter
@@ -35,6 +35,10 @@ public class Moment implements Serializable {
         this.dataHora = dataHora;
     }
 
+    /**
+     * Função para validar o @RequestBody enviado
+     * @since 2022-03-24 18:37
+     */
     public ResponseEntity<Object> selfValidate() {
         if (dataHora == null)
             return ResponseEntity.status(400).body(new Message("Campo obrigatório não informado: dataHora"));
@@ -56,6 +60,5 @@ public class Moment implements Serializable {
     public String getYear() {
         return String.valueOf(LocalDateTime.parse(dataHora).getYear());
     }
-
     public String getDate() {return getYear() + "-" + getMonth() + "-" + getDay();}
 }

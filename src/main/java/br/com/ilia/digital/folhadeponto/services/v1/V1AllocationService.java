@@ -14,10 +14,20 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+/**
+ * Classe de serviço de Alocações
+ * @version 1
+ * @since 2022-03-23 17:27
+ */
+
 @Service
 @AllArgsConstructor
 public class V1AllocationService {
 
+    /**
+     * Função de atualização de Alocações
+     * @since 2022-03-23 17:27
+     */
     public ResponseEntity<Object> updateAllocation(Allocation allocation) {
 
         List<Moment> moments = LocalMomentRepository.getMoments(allocation.returnYear() + "-" + allocation.returnMonth() + "-" + allocation.returnDay());
@@ -28,7 +38,7 @@ public class V1AllocationService {
         Registry registry = LocalRegistryRepository.getRegistry(allocation.returnYear() + "-" + allocation.returnMonth() + "-" + allocation.returnDay());
 
         if (registry.getHorarios().size() == 1)
-            return ResponseEntity.status(403).body(new Message("Apenas uma batida foi registrada na data: " + allocation.returnYear() + "-" + allocation.returnMonth() + "-" + allocation.returnDay() ));
+            return ResponseEntity.status(403).body(new Message("Apenas uma batida foi registrada na data: " + allocation.getDia() ));
         for (int i = 1; i < registry.getHorarios().size(); i++) {
             String time = registry.getHorarios().get(i);
 

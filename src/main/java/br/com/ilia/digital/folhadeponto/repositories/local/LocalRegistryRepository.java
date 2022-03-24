@@ -8,14 +8,17 @@ import java.io.*;
 import java.nio.file.Path;
 
 /**
- * Repositório para Registro de horas de um Empregado
- *
+ * Classe de Repositório de Registros em arquivos locais
  * @since 2022-03-23 17:27
  */
 
 @Component
 public class LocalRegistryRepository {
 
+    /**
+     * Função para salvar Registros em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void saveRegistry(Registry newRegistry, String day, String month, String year) {
         String date = year + "-" + month + "-" + day;
@@ -33,6 +36,10 @@ public class LocalRegistryRepository {
         registryOutput.close();
     }
 
+    /**
+     * Função para recuperar dados de Registros em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static Registry getRegistry(String date) {
         checkIfFileExists(date);
@@ -48,6 +55,10 @@ public class LocalRegistryRepository {
         return registry;
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e retornar boolean
+     * @since 2022-03-23 17:27
+     */
     public static boolean fileExists(String date) {
         if (System.getProperty("os.name").contains("Windows")) {
             return new File(System.getProperty("user.dir"), "\\config\\registry" + date).exists();
@@ -56,6 +67,10 @@ public class LocalRegistryRepository {
         }
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e criar os arquivos se não existirem
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void checkIfFileExists(String date) {
         if (!fileExists(date)) {

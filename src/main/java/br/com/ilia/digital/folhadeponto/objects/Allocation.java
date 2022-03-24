@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
- * Alocação de um Empregado
+ * Classe de Alocação
  *
  * @since 2022-03-23 17:22
  */
@@ -43,6 +43,10 @@ public class Allocation implements Serializable {
         this.projeto = projeto;
     }
 
+    /**
+     * Função para validar o @RequestBody enviado
+     * @since 2022-03-24 18:37
+     */
     public ResponseEntity<Object> selfValidate() {
         if (dia == null) return ResponseEntity.status(400).body(new Message("Campo obrigatório não informado: dia"));
         if (tempo == null)
@@ -50,10 +54,9 @@ public class Allocation implements Serializable {
         if (projeto == null)
             return ResponseEntity.status(400).body(new Message("Campo obrigatório não informado: projeto"));
 
-        LocalDate day;
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            day = LocalDate.parse(dia, formatter);
+            LocalDate.parse(dia, formatter);
         } catch (Exception e) {
             return ResponseEntity.status(400).body(new Message("Dia em formato inválido, utilize a seguinte formatação: 2022-03-23"));
         }

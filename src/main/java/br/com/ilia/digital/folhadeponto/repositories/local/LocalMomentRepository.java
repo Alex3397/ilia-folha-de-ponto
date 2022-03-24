@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Repositório para Momento da batida de ponto
- *
+ * Classe de Repositório de Batidas em arquivos locais
  * @since 2022-03-23 17:27
  */
 
 @Component
 public class LocalMomentRepository {
 
+    /**
+     * Função para salvar Batidas em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void saveMoment(Moment newMoment) {
         String date = newMoment.getYear() + "-" + newMoment.getMonth() + "-" + newMoment.getDay();
@@ -38,6 +41,10 @@ public class LocalMomentRepository {
         momentsOutput.close();
     }
 
+    /**
+     * Função para recuperar dados de Batidas em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static List<Moment> getMoments(String date) {
         checkIfFileExists(date);
@@ -53,6 +60,10 @@ public class LocalMomentRepository {
         return momentList;
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e retornar boolean
+     * @since 2022-03-23 17:27
+     */
     public static boolean fileExists(String date) {
         if (System.getProperty("os.name").contains("Windows")) {
             return new File(System.getProperty("user.dir"), "\\config\\workDay" + date).exists();
@@ -61,6 +72,10 @@ public class LocalMomentRepository {
         }
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e criar os arquivos se não existirem
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void checkIfFileExists(String date) {
         if (!fileExists(date)) {
@@ -81,6 +96,10 @@ public class LocalMomentRepository {
         }
     }
 
+    /**
+     * Função para buscar Batidas de acordo com data e hora nos arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static Moment findByDateTime(String dateTime, String date) {
         List<Moment> momentList = getMoments(date);
@@ -92,6 +111,10 @@ public class LocalMomentRepository {
         return null;
     }
 
+    /**
+     * Função para buscar Lista de horários de Batidas de acordo com data e hora nos arquivos locais
+     * @since 2022-03-23 17:27
+     */
     public static List<String> getSchedules(String date) {
         List<Moment> momentList = getMoments(date);
         List<String> schedules = new ArrayList<>();

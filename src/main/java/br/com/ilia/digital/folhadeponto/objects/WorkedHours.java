@@ -5,8 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Horas Trabalhadas
- *
+ * Objeto de transferência de dados das Horas Trabalhadas
  * @since 2022-03-23 17:36
  */
 

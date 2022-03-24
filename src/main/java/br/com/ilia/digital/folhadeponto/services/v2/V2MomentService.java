@@ -16,6 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Classe de serviço de Batidas
+ * @version 2
+ * @since 2022-03-23 17:27
+ */
 @Service
 @AllArgsConstructor
 public class V2MomentService {
@@ -24,13 +29,16 @@ public class V2MomentService {
     private RegistryRepository registryRepository;
     private MomentRepository momentRepository;
 
+    /**
+     * Função para criar batida
+     * @since 2022-03-23 17:27
+     */
     public ResponseEntity<Object> postWorkedTime(Moment moment) {
 
         ResponseEntity<Object> response = moment.selfValidate();
         if (response.getStatusCodeValue() == 400) return response;
 
         Optional<Moment> foundMoment = momentRepository.findByDataHora(moment.getDataHora());
-        System.out.println("got moment: " + moment.getDataHora());
         if (foundMoment.isPresent()) return ResponseEntity.status(409).body(new Message("Horário já registrado"));
 
         DayOfWeek dayOfWeek = LocalDateTime.parse(moment.getDataHora()).getDayOfWeek();
@@ -38,9 +46,7 @@ public class V2MomentService {
             return ResponseEntity.status(403).body(new Message("Sábado e domingo não são permitidos como dia de trabalho"));
         momentRepository.save(moment);
 
-        System.out.println("find registry by date: " + moment.getDate());
         Optional<Registry> registry = v2RegistryService.findRegistryByDate(moment.getDate());
-        System.out.println(registry.map(value -> "got registry: " + value.getDia()).orElse("registry was not present"));
         List<String> hours;
 
         if (registry.isPresent()) {
@@ -70,7 +76,6 @@ public class V2MomentService {
             return ResponseEntity.status(201).body(registry.get());
         } else {
             hours = new ArrayList<>();
-
             hours.add(moment.getDataHora().split("T")[1]);
             Registry newRegistry = new Registry(moment.getDate(), hours);
 

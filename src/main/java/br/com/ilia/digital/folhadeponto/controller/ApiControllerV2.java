@@ -13,6 +13,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 
 /**
@@ -25,11 +28,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ApiControllerV2 {
 
-    private V1MomentService momentService;
     private V2MomentService v2MomentService;
-    private V1RecordService recordServices;
     private V2RecordService v2RecordService;
-    private V1AllocationService v1AllocationService;
     private V2AllocationService v2AllocationService;
 
     @PostMapping("batidas")
@@ -44,8 +44,22 @@ public class ApiControllerV2 {
 
     @GetMapping("folhas-de-ponto/{mes}")
     public ResponseEntity<Object> getRecord(@PathVariable(name = "mes") String date) {
-        recordServices.createRecord(date);
         return v2RecordService.getRecord(date);
+    }
+
+    /**
+     * Função para popular a API utilizando banco de dados para armazenar os dados
+     * @since 2022-03-24 18:37
+     */
+    public void populate() {
+        for (int i = 1; i <= 31; i++) {
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,8,25,31).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,12,50,29).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,13,10,18).toString()));
+            postWorkedTime(new Moment(LocalDateTime.of(2022,3,i,19,59,37).toString()));
+
+            postAllocation(new Allocation(LocalDate.of(2022,3,i).toString(), LocalTime.of(10,0,0).toString(),"GROGALDR"));
+        }
     }
 
 }

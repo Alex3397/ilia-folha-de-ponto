@@ -1,4 +1,3 @@
-# Alterações no ReadMe.md ainda não consluídas (Haja sono)
 # ilia-folha-de-ponto
 
 ## Descrição
@@ -7,10 +6,22 @@ API para controle de folha de ponto.
 * alocar horas em projeto 
 * visualizar o tempo alocado no mês por projeto 
 
-### Endpoints
-* Bater Ponto: /batidas
-* Alocar Horas: /alocacoes
-* Relatório Folha de Ponto: /folhas-de-ponto/{mes}
+#### Existem duas versões da API, a V1, onde os objetos são armazenados em arquivos locais em um pasta específica, e a V2 onde é utilizado spring JPA para realizar a persistência de dados da Aplicação.
+
+## Endpoints
+
+### Versão 1
+* Bater Ponto: v1/batidas
+* Alocar Horas: v1/alocacoes
+* Relatório Folha de Ponto: v1/folhas-de-ponto/{mes}
+
+### Versão 2
+* Bater Ponto: v2/batidas
+* Alocar Horas: v2/alocacoes
+* Relatório Folha de Ponto: v2/folhas-de-ponto/{mes}
+
+#### Independente da versão utilizada o resultado das requisições são os mesmo, a indiferênça está na performance da API e na quantidade de trabalho realizado para fazer funcionar e na necessidade de cada ambiente/cliente.
+###### _Caso você queria/precise armazenar informações e não pode usar banco de dados sinta-se a vontade para copiar._  
 
 ## Pré requisitos
 

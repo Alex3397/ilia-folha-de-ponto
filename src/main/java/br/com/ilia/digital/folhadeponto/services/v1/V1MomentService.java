@@ -13,14 +13,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Serviço de Momento versão 1
- *
- * @since 2022-03-23 17:22
+ * Classe de serviço de Batidas
+ * @version 1
+ * @since 2022-03-23 17:27
  */
 
 @Service
 public class V1MomentService {
 
+    /**
+     * Função de registro de batidas
+     * @since 2022-03-23 17:27
+     */
     public ResponseEntity<Object> registerMoment(Moment moment) {
 
         ResponseEntity<Object> response = moment.selfValidate();

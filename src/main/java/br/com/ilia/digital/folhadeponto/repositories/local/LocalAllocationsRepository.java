@@ -7,9 +7,18 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.nio.file.Path;
 
+/**
+ * Classe de Repositório de Alocações em arquivos locais
+ * @since 2022-03-23 17:27
+ */
+
 @Component
 public class LocalAllocationsRepository {
 
+    /**
+     * Função para salvar Alocações em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void saveAllocation(Allocation newAllocation, String day, String month, String year) {
         String date = year + "-" + month + "-" + day;
@@ -27,6 +36,10 @@ public class LocalAllocationsRepository {
         allocationOutput.close();
     }
 
+    /**
+     * Função para recuperar dados de Alocações em arquivos locais
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static Allocation getAllocation(String date) {
         checkIfFileExists(date);
@@ -42,6 +55,10 @@ public class LocalAllocationsRepository {
         return allocation;
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e retornar boolean
+     * @since 2022-03-23 17:27
+     */
     public static boolean fileExists(String date) {
         if (System.getProperty("os.name").contains("Windows")) {
             return new File(System.getProperty("user.dir"), "\\config\\allocation" + date).exists();
@@ -50,6 +67,10 @@ public class LocalAllocationsRepository {
         }
     }
 
+    /**
+     * Função para verificar se arquivos locais existem e criar os arquivos se não existirem
+     * @since 2022-03-23 17:27
+     */
     @SneakyThrows
     public static void checkIfFileExists(String date) {
         if (!fileExists(date)) {

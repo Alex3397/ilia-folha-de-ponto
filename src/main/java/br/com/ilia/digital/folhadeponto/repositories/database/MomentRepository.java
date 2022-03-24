@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Repositório para Momento da batida de ponto
- *
+ * Interface de Repositório de batidas de ponto no banco de dados
  * @since 2022-03-23 17:27
  */
 

@@ -15,59 +15,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Relatório mensal/verificação da folha de ponto
- *
- * @since 2022-03-23 17:36
+ * Objeto de transferência de dados para enviar relatórios mensais
+ * @since 2022-03-24 18:37
  */
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class Record implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String mes;
     private String horasTrabalhadas;
     private String horasExcedentes;
     private String horasDevidas;
-    @OneToMany
     private List<Registry> registros;
-    @OneToMany
     private List<Allocation> alocacoes;
 
-    public void gatherDataByDate(String date) {
-        Path configPath = System.getProperty("os.name").contains("Windows") ? Path.of(System.getProperty("user.dir"), "\\config") : Path.of(System.getProperty("user.dir"), "/config");
-        File configDir = new File(String.valueOf(configPath));
-        setMes(date);
-
-        if (!configDir.exists()) configDir.mkdirs();
-        String[] dateParts = date.split("-");
-        String[] filesList = configDir.list();
-
-        List<Registry> registryList = new ArrayList<>();
-        List<Allocation> allocationList = new ArrayList<>();
-
-        if (filesList != null && filesList.length > 0) for (String file : filesList) {
-            if (file.contains(String.valueOf(Integer.parseInt(dateParts[0]))) && file.contains(String.valueOf(Integer.parseInt(dateParts[1])))) {
-                if (file.contains("registry"))
-                    registryList.add(LocalRegistryRepository.getRegistry(file.replace("registry", "")));
-                if (file.contains("allocation"))
-                    allocationList.add(LocalAllocationsRepository.getAllocation(file.replace("allocation", "")));
-            }
-        }
-
-        setAlocacoes(allocationList);
-        setRegistros(registryList);
-
-        updateWorkedHours();
-        updateExceedingHours();
-        updateDueHours();
-    }
-
+    /**
+     * Função para retornar a quantidade total de horas trabalhadas
+     * @since 2022-03-24 18:37
+     */
     private WorkedHours fetchWorkedHours(List<Registry> registryList) {
         int totalHours = 0, totalMinutes = 0, totalSeconds = 0;
         for (Registry registry : registryList) {
@@ -98,7 +66,11 @@ public class Record implements Serializable {
         return new WorkedHours(totalHours, totalMinutes, totalSeconds);
     }
 
-    private void updateDueHours() {
+    /**
+     * Função para atualizar as horas de trabalho devidas
+     * @since 2022-03-24 18:37
+     */
+    public void updateDueHours() {
         WorkedHours baseWorkHours = new WorkedHours(220, 0, 0);
         WorkedHours workedHours = fetchWorkedHours(registros);
 
@@ -109,7 +81,11 @@ public class Record implements Serializable {
         else setHorasDevidas(new WorkedHours(0,0,0).toString());
     }
 
-    private void updateExceedingHours() {
+    /**
+     * Função para atualizar as horas de trabalho excedentes
+     * @since 2022-03-24 18:37
+     */
+    public void updateExceedingHours() {
         WorkedHours baseWorkHours = new WorkedHours(220, 0, 0);
         WorkedHours workedHours = fetchWorkedHours(registros);
 
@@ -120,31 +96,12 @@ public class Record implements Serializable {
         else setHorasExcedentes(new WorkedHours(0,0,0).toString());
     }
 
-    private void updateWorkedHours() {
+    /**
+     * Função para atualizar as horas trabalhadas totais
+     * @since 2022-03-24 18:37
+     */
+    public void updateWorkedHours() {
         WorkedHours workedHours = fetchWorkedHours(registros);
         setHorasTrabalhadas(workedHours.toString());
-    }
-
-    public void gatherDataByDateV2(String date) {
-        setMes(date);
-
-        List<Registry> registryList = new ArrayList<>();
-        List<Allocation> allocationList = new ArrayList<>();
-
-        if (filesList != null && filesList.length > 0) for (String file : filesList) {
-            if (file.contains(String.valueOf(Integer.parseInt(dateParts[0]))) && file.contains(String.valueOf(Integer.parseInt(dateParts[1])))) {
-                if (file.contains("registry"))
-                    registryList.add(LocalRegistryRepository.getRegistry(file.replace("registry", "")));
-                if (file.contains("allocation"))
-                    allocationList.add(LocalAllocationsRepository.getAllocation(file.replace("allocation", "")));
-            }
-        }
-
-        setAlocacoes(allocationList);
-        setRegistros(registryList);
-
-        updateWorkedHours();
-        updateExceedingHours();
-        updateDueHours();
     }
 }
