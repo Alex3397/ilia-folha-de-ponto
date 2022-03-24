@@ -76,13 +76,21 @@ foo@bar:~$ sdk list mavel
 
 </details>
 
+## Banco de dados
+
+Esta API utiliza o banco de dados em memória H2 não sendo necessária nenhuma configuração para o funcionamento da API. 
+Entretanto, caso queira dar uma olhada nos objetos armazenados basta acessar: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+
+Assim que entrar nesta tela:
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
 ## Execução
 
-### Clone
+### Clone o repositório
 
 ```console
-foo@bar:~$ git clone https://github.com/<alterar-seu-repositório>/ilia-folha-de-ponto
-foo@bar:~$ cd ilia-folha-de-ponto
+$ git clone https://github.com/Alex3397/ilia-folha-de-ponto.git
+$ cd ilia-folha-de-ponto
 ```
 
 ### Execução Linux | Windows
@@ -91,8 +99,11 @@ O projeto pode ser executado em ambiente Linux ou Windows, sendo os comandos
 diferenciando por duas opções Linux e Windows respectivamente
 
 ```console
-foo@bar:ilia-folha-de-ponto [./mvnw | mvnw.cmd] clean spring-boot:run
+mvn clean spring-boot:run
 ```
 
 A aplicação estará rodando na porta **8080** em 
 [http://localhost:8080/](http://localhost:8080/)
+
+
+
