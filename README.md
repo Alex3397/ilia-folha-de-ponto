@@ -84,4 +84,4 @@ foo@bar:ilia-folha-de-ponto [./mvnw | mvnw.cmd] clean spring-boot:run
 ```
 
 A aplicação estará rodando na porta **8080** em 
-[http://localhost:8080/swagger-ui/](http://localhost:8080/swagger-ui/)
+[http://localhost:8080/swagger-ui/](http://localhost:8080/)
