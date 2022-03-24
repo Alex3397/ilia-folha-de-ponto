@@ -44,7 +44,8 @@ public class ApiControllerV2 {
 
     @GetMapping("folhas-de-ponto/{mes}")
     public ResponseEntity<Object> getRecord(@PathVariable(name = "mes") String date) {
-        return recordServices.createRecord(date);
+        recordServices.createRecord(date);
+        return v2RecordService.getRecord(date);
     }
 
 }

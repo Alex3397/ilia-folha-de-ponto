@@ -124,4 +124,27 @@ public class Record implements Serializable {
         WorkedHours workedHours = fetchWorkedHours(registros);
         setHorasTrabalhadas(workedHours.toString());
     }
+
+    public void gatherDataByDateV2(String date) {
+        setMes(date);
+
+        List<Registry> registryList = new ArrayList<>();
+        List<Allocation> allocationList = new ArrayList<>();
+
+        if (filesList != null && filesList.length > 0) for (String file : filesList) {
+            if (file.contains(String.valueOf(Integer.parseInt(dateParts[0]))) && file.contains(String.valueOf(Integer.parseInt(dateParts[1])))) {
+                if (file.contains("registry"))
+                    registryList.add(LocalRegistryRepository.getRegistry(file.replace("registry", "")));
+                if (file.contains("allocation"))
+                    allocationList.add(LocalAllocationsRepository.getAllocation(file.replace("allocation", "")));
+            }
+        }
+
+        setAlocacoes(allocationList);
+        setRegistros(registryList);
+
+        updateWorkedHours();
+        updateExceedingHours();
+        updateDueHours();
+    }
 }
